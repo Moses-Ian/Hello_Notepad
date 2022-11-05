@@ -19,8 +19,9 @@ namespace Hello_Notepad {
 			Process p = null;
 			
 			// Check whether notepad is already open
+			Console.WriteLine("Check whether Notepad is already open...");
 			if (Process.GetProcessesByName(processName).Length > 0) {
-				Console.WriteLine("Notepad is running.");
+				Console.WriteLine("Notepad is running -> Bring it to the front.");
 				
 				p = Process.GetProcessesByName(processName)[0];
 				
@@ -30,7 +31,7 @@ namespace Hello_Notepad {
 				SetForegroundWindow(p.MainWindowHandle.ToInt32());
 				
 			} else {
-				Console.WriteLine("Notepad is NOT running.");
+				Console.WriteLine("Notepad is NOT running. -> Launch it.");
 				
 				// if it's not, open it
 				p = Process.Start(processName);
@@ -41,20 +42,25 @@ namespace Hello_Notepad {
 			p.WaitForInputIdle();
 			
 			// get the window's location
+			Console.WriteLine("Get the location of the window...");
 			Rect location = new Rect();
 			GetWindowRect(p.MainWindowHandle, ref location);
 			// Console.WriteLine(location.Left);
 			// Console.WriteLine(location.Top);
 
 			// set the mouse position
+			Console.WriteLine("Set the mouse over the File Menu Item...");
 			SetCursorPos(location.Left + 25, location.Top + 40);
 			
 			// click on File
+			Console.WriteLine("And click File.");
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
 			// click on New
+			Console.WriteLine("Set the mouse over the New Menu Item...");
 			SetCursorPos(location.Left, location.Top + 60);
+			Console.WriteLine("And click New.");
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
