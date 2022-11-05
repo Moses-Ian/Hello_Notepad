@@ -7,10 +7,12 @@ namespace Hello_Notepad {
 	
 	class Program {
 	
+		// FLAGS
 		static int LEFTDOWN = 0x00000002;
 		static int LEFTUP =   0x00000004;
 		static int SW_SHOWNORMAL = 1;
 		
+		// MAIN PROGRAM
 		static void Main(string[] args) {
 			
 			string processName = "Notepad";
@@ -18,17 +20,18 @@ namespace Hello_Notepad {
 			
 			// Check whether notepad is already open
 			if (Process.GetProcessesByName(processName).Length > 0) {
-				
 				Console.WriteLine("Notepad is running.");
+				
 				p = Process.GetProcessesByName(processName)[0];
 				
 				// Bring up the window if it's minimized
 				ShowWindow(p.MainWindowHandle, SW_SHOWNORMAL);
+				// Bring it to the front
 				SetForegroundWindow(p.MainWindowHandle.ToInt32());
 				
 			} else {
-				
 				Console.WriteLine("Notepad is NOT running.");
+				
 				// if it's not, open it
 				p = Process.Start(processName);
 				
@@ -51,6 +54,9 @@ namespace Hello_Notepad {
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
 			// click on New
+			SetCursorPos(location.Left, location.Top + 60);
+			mouse_event(LEFTDOWN, 0, 0, 0, 0);
+			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
 			
 			// these weren't mentioned in the challenge, but were mentioned by Ali Bakhta
@@ -62,6 +68,7 @@ namespace Hello_Notepad {
 			
 		}
 		
+		// HELPFUL OBJECTS
 		public struct Rect {
 			public int Left { get; set; }
 			public int Top { get; set; }
@@ -69,6 +76,7 @@ namespace Hello_Notepad {
 			public int Bottom { get; set; }
 		}
 		
+		// DLL IMPORTS
 		[DllImport("user32.dll")]
 		public static extern bool GetWindowRect(IntPtr hwnd, ref Rect rectangle);
 
