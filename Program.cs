@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Hello_Notepad {
 	
@@ -8,6 +9,7 @@ namespace Hello_Notepad {
 	
 		static int LEFTDOWN = 0x00000002;
 		static int LEFTUP =   0x00000004;
+		static int SW_SHOWNORMAL = 1;
 		
 		static void Main(string[] args) {
 			
@@ -20,7 +22,9 @@ namespace Hello_Notepad {
 				Console.WriteLine("Notepad is running.");
 				p = Process.GetProcessesByName(processName)[0];
 				
-				// should do something if it's minimized
+				// Bring up the window if it's minimized
+				ShowWindow(p.MainWindowHandle, SW_SHOWNORMAL);
+				SetForegroundWindow(p.MainWindowHandle.ToInt32());
 				
 			} else {
 				
@@ -73,6 +77,12 @@ namespace Hello_Notepad {
 
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+		
+		[DllImport("user32.dll")]
+		static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+		
+		[DllImport("User32.dll")]
+		public static extern Int32 SetForegroundWindow(int hWnd);
 		
 	}
 }
