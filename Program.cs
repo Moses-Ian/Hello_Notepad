@@ -7,12 +7,20 @@ namespace Hello_Notepad {
 	
 		static void Main(string[] args) {
 			
+			string processName = "Notepad";
+			
 			// Check whether notepad is already open
-			
-			
-			// if it's not, open it
-			Process.Start("Notepad");
-			
+			if (Process.GetProcessesByName(processName).Length > 0) {
+				
+				Console.WriteLine("Notepad is running.");
+				
+			} else {
+				
+				Console.WriteLine("Notepad is NOT running.");
+				// if it's not, open it
+				Process.Start(processName);
+				
+			}
 			
 			// click on File
 			
