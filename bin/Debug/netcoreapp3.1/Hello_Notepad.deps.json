@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Hello_Notepad/1.0.0": {
+        "runtime": {
+          "Hello_Notepad.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Hello_Notepad/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

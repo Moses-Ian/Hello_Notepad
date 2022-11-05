@@ -1,0 +1,13 @@
+F:\projects_csharp\Hello_Notepad\obj\Debug\netcoreapp3.1\Hello_Notepad.csprojAssemblyReference.cache
+F:\projects_csharp\Hello_Notepad\obj\Debug\netcoreapp3.1\Hello_Notepad.AssemblyInfoInputs.cache
+F:\projects_csharp\Hello_Notepad\obj\Debug\netcoreapp3.1\Hello_Notepad.AssemblyInfo.cs
+F:\projects_csharp\Hello_Notepad\obj\Debug\netcoreapp3.1\Hello_Notepad.csproj.CoreCompileInputs.cache
+F:\projects_csharp\Hello_Notepad\bin\Debug\netcoreapp3.1\Hello_Notepad.exe
+F:\projects_csharp\Hello_Notepad\bin\Debug\netcoreapp3.1\Hello_Notepad.deps.json
+F:\projects_csharp\Hello_Notepad\bin\Debug\netcoreapp3.1\Hello_Notepad.runtimeconfig.json
+F:\projects_csharp\Hello_Notepad\bin\Debug\netcoreapp3.1\Hello_Notepad.runtimeconfig.dev.json
+F:\projects_csharp\Hello_Notepad\bin\Debug\netcoreapp3.1\Hello_Notepad.dll
+F:\projects_csharp\Hello_Notepad\bin\Debug\netcoreapp3.1\Hello_Notepad.pdb
+F:\projects_csharp\Hello_Notepad\obj\Debug\netcoreapp3.1\Hello_Notepad.dll
+F:\projects_csharp\Hello_Notepad\obj\Debug\netcoreapp3.1\Hello_Notepad.pdb
+F:\projects_csharp\Hello_Notepad\obj\Debug\netcoreapp3.1\Hello_Notepad.genruntimeconfig.cache
