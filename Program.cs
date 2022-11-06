@@ -11,6 +11,9 @@ namespace Hello_Notepad {
 		static int LEFTDOWN = 0x00000002;
 		static int LEFTUP =   0x00000004;
 		static int SW_SHOWNORMAL = 1;
+		static byte VK_RIGHT = 0x27;
+		static byte VK_RETURN = 0x0D;
+		static byte VK_BACK = 0x08;
 		
 		// MAIN PROGRAM
 		static void Main(string[] args) {
@@ -19,9 +22,9 @@ namespace Hello_Notepad {
 			Process p = null;
 			
 			// Check whether notepad is already open
-			Console.WriteLine("Check whether Notepad is already open...");
+			// Console.WriteLine("Check whether Notepad is already open...");
 			if (Process.GetProcessesByName(processName).Length > 0) {
-				Console.WriteLine("Notepad is running -> Bring it to the front.");
+				// Console.WriteLine("Notepad is running -> Bring it to the front.");
 				
 				p = Process.GetProcessesByName(processName)[0];
 				
@@ -31,7 +34,7 @@ namespace Hello_Notepad {
 				SetForegroundWindow(p.MainWindowHandle.ToInt32());
 				
 			} else {
-				Console.WriteLine("Notepad is NOT running. -> Launch it.");
+				// Console.WriteLine("Notepad is NOT running. -> Launch it.");
 				
 				// if it's not, open it
 				p = Process.Start(processName);
@@ -42,29 +45,41 @@ namespace Hello_Notepad {
 			p.WaitForInputIdle();
 			
 			// get the window's location
-			Console.WriteLine("Get the location of the window...");
+			// Console.WriteLine("Get the location of the window...");
 			Rect location = new Rect();
 			GetWindowRect(p.MainWindowHandle, ref location);
 			// Console.WriteLine(location.Left);
 			// Console.WriteLine(location.Top);
 
 			// set the mouse position
-			Console.WriteLine("Set the mouse over the File Menu Item...");
+			// Console.WriteLine("Set the mouse over the File Menu Item...");
 			SetCursorPos(location.Left + 25, location.Top + 40);
 			
 			// click on File
-			Console.WriteLine("And click File.");
+			// Console.WriteLine("And click File.");
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
 			// click on New
-			Console.WriteLine("Set the mouse over the New Menu Item...");
+			// Console.WriteLine("Set the mouse over the New Menu Item...");
 			SetCursorPos(location.Left, location.Top + 60);
-			Console.WriteLine("And click New.");
+			// Console.WriteLine("And click New.");
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
-			
+			// a new window might pop up that asks whether you want to save your data
+			// we need to handle that situation
+			// type RIGHT ENTER BACKSPACE
+			// -> this will close the dialog box if it's open, and make no permanent changes if it isn't open
+
+			// Close without saving (or do nothing significant)
+			// Tap RIGHT
+			keybd_event(VK_RIGHT, 0x45, 0, 0);
+			// Tap ENTER
+			keybd_event(VK_RETURN, 0x45, 0, 0);
+			// Tap BACKSPACE
+			keybd_event(VK_BACK, 0x45, 0, 0);
+
 			// these weren't mentioned in the challenge, but were mentioned by Ali Bakhta
 			// type 'hello' in the window
 			
@@ -98,5 +113,7 @@ namespace Hello_Notepad {
 		[DllImport("User32.dll")]
 		public static extern Int32 SetForegroundWindow(int hWnd);
 		
+		[DllImport("user32.dll")]
+		internal static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);		
 	}
 }
