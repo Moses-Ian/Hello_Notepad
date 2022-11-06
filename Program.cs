@@ -8,6 +8,7 @@ namespace Hello_Notepad {
 	class Program {
 	
 		// FLAGS
+		// These are defined here in this way because this is a simple script. 
 		static int LEFTDOWN = 0x00000002;
 		static int LEFTUP =   0x00000004;
 		static int SW_SHOWNORMAL = 1;
@@ -20,6 +21,11 @@ namespace Hello_Notepad {
 		static byte VK_O = 0x4F;
 		static byte VK_LSHIFT = 0xA0;
 		static uint KEYEVENTF_KEYUP = 0x0002;
+		static byte VK_OEM_MINUS = 0xBD;
+		static byte VK_I = 0x49;
+		static byte VK_A = 0x41;
+		static byte VK_N = 0x4E;
+		static byte VK_M = 0x4D;
 		
 		// MAIN PROGRAM
 		static void Main(string[] args) {
@@ -87,7 +93,7 @@ namespace Hello_Notepad {
 			keybd_event(VK_BACK, 0x45, 0, 0);
 
 			// these weren't mentioned in the challenge, but were mentioned by Ali Bakhta
-			// type 'hello' in the window
+			// type 'Hello' in the window
 			// this could be done with an array, but I'm just being explicit here
 			keybd_event(VK_LSHIFT, 0x45, 0, 0);
 			keybd_event(VK_H, 0x45, 0, 0);
@@ -97,10 +103,37 @@ namespace Hello_Notepad {
 			keybd_event(VK_L, 0x45, 0, 0);
 			keybd_event(VK_O, 0x45, 0, 0);
 			
-			
 			// save to desktop
+			// click File -> Save As
+			SetCursorPos(location.Left + 25, location.Top + 40);
+			mouse_event(LEFTDOWN, 0, 0, 0, 0);
+			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
+			SetCursorPos(location.Left, location.Top + 130);
+			mouse_event(LEFTDOWN, 0, 0, 0, 0);
+			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
+			// wait
+			Thread.Sleep(1000);
+
+			// type 'Hello_IanM' -> ENTER
+			keybd_event(VK_LSHIFT, 0x45, 0, 0);
+			keybd_event(VK_H, 0x45, 0, 0);
+			keybd_event(VK_LSHIFT, 0x45, KEYEVENTF_KEYUP, 0);
+			keybd_event(VK_E, 0x45, 0, 0);
+			keybd_event(VK_L, 0x45, 0, 0);
+			keybd_event(VK_L, 0x45, 0, 0);
+			keybd_event(VK_O, 0x45, 0, 0);
+			keybd_event(VK_LSHIFT, 0x45, 0, 0);
+			keybd_event(VK_OEM_MINUS, 0x45, 0, 0);
+			keybd_event(VK_I, 0x45, 0, 0);
+			keybd_event(VK_LSHIFT, 0x45, KEYEVENTF_KEYUP, 0);
+			keybd_event(VK_A, 0x45, 0, 0);
+			keybd_event(VK_N, 0x45, 0, 0);
+			keybd_event(VK_LSHIFT, 0x45, 0, 0);
+			keybd_event(VK_M, 0x45, 0, 0);
+			keybd_event(VK_LSHIFT, 0x45, KEYEVENTF_KEYUP, 0);
+			keybd_event(VK_RETURN, 0x45, 0, 0);
 		}
 		
 		// HELPFUL OBJECTS
