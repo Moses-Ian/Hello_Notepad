@@ -14,6 +14,12 @@ namespace Hello_Notepad {
 		static byte VK_RIGHT = 0x27;
 		static byte VK_RETURN = 0x0D;
 		static byte VK_BACK = 0x08;
+		static byte VK_H = 0x48;
+		static byte VK_E = 0x45;
+		static byte VK_L = 0x4C;
+		static byte VK_O = 0x4F;
+		static byte VK_LSHIFT = 0xA0;
+		static uint KEYEVENTF_KEYUP = 0x0002;
 		
 		// MAIN PROGRAM
 		static void Main(string[] args) {
@@ -82,6 +88,14 @@ namespace Hello_Notepad {
 
 			// these weren't mentioned in the challenge, but were mentioned by Ali Bakhta
 			// type 'hello' in the window
+			// this could be done with an array, but I'm just being explicit here
+			keybd_event(VK_LSHIFT, 0x45, 0, 0);
+			keybd_event(VK_H, 0x45, 0, 0);
+			keybd_event(VK_LSHIFT, 0x45, KEYEVENTF_KEYUP, 0);
+			keybd_event(VK_E, 0x45, 0, 0);
+			keybd_event(VK_L, 0x45, 0, 0);
+			keybd_event(VK_L, 0x45, 0, 0);
+			keybd_event(VK_O, 0x45, 0, 0);
 			
 			
 			// save to desktop
