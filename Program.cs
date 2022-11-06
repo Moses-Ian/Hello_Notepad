@@ -12,20 +12,21 @@ namespace Hello_Notepad {
 		static int LEFTDOWN = 0x00000002;
 		static int LEFTUP =   0x00000004;
 		static int SW_SHOWNORMAL = 1;
+		static uint KEYEVENTF_KEYUP = 0x0002;
 		static byte VK_RIGHT = 0x27;
+		static byte VK_LEFT = 0x25;
 		static byte VK_RETURN = 0x0D;
 		static byte VK_BACK = 0x08;
-		static byte VK_H = 0x48;
-		static byte VK_E = 0x45;
-		static byte VK_L = 0x4C;
-		static byte VK_O = 0x4F;
 		static byte VK_LSHIFT = 0xA0;
-		static uint KEYEVENTF_KEYUP = 0x0002;
 		static byte VK_OEM_MINUS = 0xBD;
-		static byte VK_I = 0x49;
 		static byte VK_A = 0x41;
-		static byte VK_N = 0x4E;
+		static byte VK_E = 0x45;
+		static byte VK_H = 0x48;
+		static byte VK_I = 0x49;
+		static byte VK_L = 0x4C;
 		static byte VK_M = 0x4D;
+		static byte VK_N = 0x4E;
+		static byte VK_O = 0x4F;
 		
 		// MAIN PROGRAM
 		static void Main(string[] args) {
@@ -34,9 +35,9 @@ namespace Hello_Notepad {
 			Process p = null;
 			
 			// Check whether notepad is already open
-			// Console.WriteLine("Check whether Notepad is already open...");
+			Console.WriteLine("Check whether Notepad is already open...");
 			if (Process.GetProcessesByName(processName).Length > 0) {
-				// Console.WriteLine("Notepad is running -> Bring it to the front.");
+				Console.WriteLine("Notepad is running -> Bring it to the front.");
 				
 				p = Process.GetProcessesByName(processName)[0];
 				
@@ -46,7 +47,7 @@ namespace Hello_Notepad {
 				SetForegroundWindow(p.MainWindowHandle.ToInt32());
 				
 			} else {
-				// Console.WriteLine("Notepad is NOT running. -> Launch it.");
+				Console.WriteLine("Notepad is NOT running. -> Launch it.");
 				
 				// if it's not, open it
 				p = Process.Start(processName);
@@ -57,25 +58,25 @@ namespace Hello_Notepad {
 			p.WaitForInputIdle();
 			
 			// get the window's location
-			// Console.WriteLine("Get the location of the window...");
+			Console.WriteLine("Get the location of the window...");
 			Rect location = new Rect();
 			GetWindowRect(p.MainWindowHandle, ref location);
 			// Console.WriteLine(location.Left);
 			// Console.WriteLine(location.Top);
 
 			// set the mouse position
-			// Console.WriteLine("Set the mouse over the File Menu Item...");
+			Console.WriteLine("Set the mouse over the File Menu Item...");
 			SetCursorPos(location.Left + 25, location.Top + 40);
 			
 			// click on File
-			// Console.WriteLine("And click File.");
+			Console.WriteLine("And click File.");
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
 			// click on New
-			// Console.WriteLine("Set the mouse over the New Menu Item...");
+			Console.WriteLine("Set the mouse over the New Menu Item...");
 			SetCursorPos(location.Left, location.Top + 60);
-			// Console.WriteLine("And click New.");
+			Console.WriteLine("And click New.");
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
@@ -85,6 +86,7 @@ namespace Hello_Notepad {
 			// -> this will close the dialog box if it's open, and make no permanent changes if it isn't open
 
 			// Close without saving (or do nothing significant)
+			Console.WriteLine("Type RIGHT -> ENTER -> BACKSPACE");
 			// Tap RIGHT
 			keybd_event(VK_RIGHT, 0x45, 0, 0);
 			// Tap ENTER
@@ -95,6 +97,7 @@ namespace Hello_Notepad {
 			// these weren't mentioned in the challenge, but were mentioned by Ali Bakhta
 			// type 'Hello' in the window
 			// this could be done with an array, but I'm just being explicit here
+			Console.WriteLine("Type 'Hello'");
 			keybd_event(VK_LSHIFT, 0x45, 0, 0);
 			keybd_event(VK_H, 0x45, 0, 0);
 			keybd_event(VK_LSHIFT, 0x45, KEYEVENTF_KEYUP, 0);
@@ -105,10 +108,12 @@ namespace Hello_Notepad {
 			
 			// save to desktop
 			// click File -> Save As
+			Console.WriteLine("Click File...");
 			SetCursorPos(location.Left + 25, location.Top + 40);
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
 			
+			Console.WriteLine("And click Save As");
 			SetCursorPos(location.Left, location.Top + 130);
 			mouse_event(LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(LEFTUP, 0, 0, 0, 0);
@@ -117,6 +122,7 @@ namespace Hello_Notepad {
 			Thread.Sleep(1000);
 
 			// type 'Hello_IanM' -> ENTER
+			Console.WriteLine("Type 'Hello_IanM'...");
 			keybd_event(VK_LSHIFT, 0x45, 0, 0);
 			keybd_event(VK_H, 0x45, 0, 0);
 			keybd_event(VK_LSHIFT, 0x45, KEYEVENTF_KEYUP, 0);
@@ -133,7 +139,25 @@ namespace Hello_Notepad {
 			keybd_event(VK_LSHIFT, 0x45, 0, 0);
 			keybd_event(VK_M, 0x45, 0, 0);
 			keybd_event(VK_LSHIFT, 0x45, KEYEVENTF_KEYUP, 0);
+			Console.WriteLine("And type ENTER");
 			keybd_event(VK_RETURN, 0x45, 0, 0);
+			
+			// sometimes, a dialog box appears asking if we want to overwrite
+			// -> we need to handle it
+			// -> we'll input LEFT ENTER
+			// -> this has the side affect of modifying our text, but we'll close without saving
+			Console.WriteLine("Close the dialog box that might appear.");
+			keybd_event(VK_LEFT, 0x45, 0, 0);
+			keybd_event(VK_RETURN, 0x45, 0, 0);
+			
+			// wait
+			Thread.Sleep(1000);
+
+			// close the window
+			Console.WriteLine("Close the window.");
+			p.Kill();
+			
+			Console.WriteLine("Finished.");
 		}
 		
 		// HELPFUL OBJECTS
