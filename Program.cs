@@ -9,8 +9,6 @@ namespace Hello_Notepad {
 	
 		// FLAGS
 		// These are defined here in this way because this is a simple script. 
-		static int LEFTDOWN = 0x00000002;
-		static int LEFTUP =   0x00000004;
 		static int SW_SHOWNORMAL = 1;
 		static uint KEYEVENTF_KEYUP = 0x0002;
 		static byte VK_RIGHT = 0x27;
@@ -18,9 +16,12 @@ namespace Hello_Notepad {
 		static byte VK_RETURN = 0x0D;
 		static byte VK_BACK = 0x08;
 		static byte VK_LSHIFT = 0xA0;
+		static byte VK_CONTROL = 0x11;
+		static byte VK_MENU = 0x12;	// ALT key
 		static byte VK_OEM_MINUS = 0xBD;
 		static byte VK_A = 0x41;
 		static byte VK_E = 0x45;
+		static byte VK_F = 0x46;
 		static byte VK_H = 0x48;
 		static byte VK_I = 0x49;
 		static byte VK_L = 0x4C;
@@ -57,28 +58,11 @@ namespace Hello_Notepad {
 			// wait
 			p.WaitForInputIdle();
 			
-			// get the window's location
-			Console.WriteLine("Get the location of the window...");
-			Rect location = new Rect();
-			GetWindowRect(p.MainWindowHandle, ref location);
-			// Console.WriteLine(location.Left);
-			// Console.WriteLine(location.Top);
-
-			// set the mouse position
-			Console.WriteLine("Set the mouse over the File Menu Item...");
-			SetCursorPos(location.Left + 25, location.Top + 40);
-			
-			// click on File
-			Console.WriteLine("And click File.");
-			mouse_event(LEFTDOWN, 0, 0, 0, 0);
-			mouse_event(LEFTUP, 0, 0, 0, 0);
-			
-			// click on New
-			Console.WriteLine("Set the mouse over the New Menu Item...");
-			SetCursorPos(location.Left, location.Top + 60);
-			Console.WriteLine("And click New.");
-			mouse_event(LEFTDOWN, 0, 0, 0, 0);
-			mouse_event(LEFTUP, 0, 0, 0, 0);
+			// Click on File -> New, using the keyboard to type Ctrl+N
+			Console.WriteLine("Type Ctrl+N to open a new file.");
+			keybd_event(VK_CONTROL, 0x45, 0, 0);
+			keybd_event(VK_N, 0x45, 0, 0);
+			keybd_event(VK_CONTROL, 0x45, KEYEVENTF_KEYUP, 0);
 			
 			// a new window might pop up that asks whether you want to save your data
 			// we need to handle that situation
@@ -107,16 +91,18 @@ namespace Hello_Notepad {
 			keybd_event(VK_O, 0x45, 0, 0);
 			
 			// save to desktop
-			// click File -> Save As
-			Console.WriteLine("Click File...");
-			SetCursorPos(location.Left + 25, location.Top + 40);
-			mouse_event(LEFTDOWN, 0, 0, 0, 0);
-			mouse_event(LEFTUP, 0, 0, 0, 0);
+			// Click on File -> Save As, using the keyboard to type Alt+F -> Alt+A
+			Console.WriteLine("Type Alt+F to open the File Menu.");
+			keybd_event(VK_MENU, 0x45, 0, 0);
+			keybd_event(VK_F, 0x45, 0, 0);
+			// need to hold down the ALT key for this to work
 			
-			Console.WriteLine("And click Save As");
-			SetCursorPos(location.Left, location.Top + 130);
-			mouse_event(LEFTDOWN, 0, 0, 0, 0);
-			mouse_event(LEFTUP, 0, 0, 0, 0);
+			// wait
+			Thread.Sleep(1000);
+
+			Console.WriteLine("Type Alt+A to click Save As.");
+			keybd_event(VK_A, 0x45, 0, 0);
+			keybd_event(VK_MENU, 0x45, KEYEVENTF_KEYUP, 0);
 			
 			// wait
 			Thread.Sleep(1000);
@@ -160,24 +146,7 @@ namespace Hello_Notepad {
 			Console.WriteLine("Finished.");
 		}
 		
-		// HELPFUL OBJECTS
-		public struct Rect {
-			public int Left { get; set; }
-			public int Top { get; set; }
-			public int Right { get; set; }
-			public int Bottom { get; set; }
-		}
-		
 		// DLL IMPORTS
-		[DllImport("user32.dll")]
-		public static extern bool GetWindowRect(IntPtr hwnd, ref Rect rectangle);
-
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-		static extern bool SetCursorPos(int x, int y);
-
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-		public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
-		
 		[DllImport("user32.dll")]
 		static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 		
